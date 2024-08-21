@@ -146,8 +146,7 @@ def getArtists(city, state, country, preffered=None):
 
                 if(area == city.lower()):
                     artists.get('artists').append({"name": name})#append onto the artists array the name of the artists
-
-            offset += 50
+            offset += 30
     offset = 0
     #if there are no artists on that city then it will be by state or user chooses state then we search by state
     if(preffered == 'state' or ( preffered != 'country' and len(artists.get('artists')) == 0)):
@@ -162,7 +161,7 @@ def getArtists(city, state, country, preffered=None):
                 if(area == state.lower()):
                     artists.get('artists').append({"name": name})#append onto the artists array the name of the artists
             
-            offset += 50
+            offset += 30
     offset = 0
     #if there are no artists on that state or user chooses country then it will be by country
     if(len(artists.get('artists')) == 0):
@@ -177,7 +176,7 @@ def getArtists(city, state, country, preffered=None):
                 if(area == country.lower()):
                     artists.get('artists').append({"name": name})#append onto the artists array the name of the artists
 
-            offset += 50
+            offset += 30
     
     #randomize 
     random.shuffle(artists['artists'])
@@ -185,20 +184,36 @@ def getArtists(city, state, country, preffered=None):
     return artists
 
 #this function calls the get artist fucntion and for each artist calls the get top tracks functions. it takes advantage of concurrecny so as to speed up the process
-async def getArtistData(city, state, country, preffered=None):
-
-    x=getArtists(city, state, country, preffered) #var holding all the artists names
-
+async def getArtistData(city, state, country, preffered=None, cached=None):
     access_token = await get_spotify_access_token()
 
-    async with aiohttp.ClientSession() as session:
-        tasks = []#array used to append all the tasks the threads will run
-        for artist in x.get('artists'): #extract artist name from above function and pass to get_artist_top_tracks function to get top tracks of each artist
-            artist_name = artist.get('name')
-            tasks.append(get_artist_top_tracks(session, access_token, artist_name))  # Append the async task to the list
+    if cached:
+        x = cached#we will use the cached artists instead of making another api call
+        async with aiohttp.ClientSession() as session:
+            tasks = []#array used to append all the tasks the threads will run
+            for artist in cached.get('artists'): #extract artist name from above function and pass to get_artist_top_tracks function to get top tracks of each artist
+                artist_name = artist.get('name')
+                tasks.append(get_artist_top_tracks(session, access_token, artist_name))  # Append the async task to the list
 
-        results = await asyncio.gather(*tasks)#we wait for each theread to return
+            results = await asyncio.gather(*tasks)#we wait for each theread to return
 
+    #otherwise we will make an api call to gather artist names        
+    else:
+        x=getArtists(city, state, country, preffered) #var holding all the artists names
+        searchedArtists = [] #array to hold already searched artists and remove them from our cache
+
+        async with aiohttp.ClientSession() as session:
+            tasks = []#array used to append all the tasks the threads will run
+            for artist in x.get('artists')[:9]: #extract artist name from above function and pass to get_artist_top_tracks function to get top tracks of each artist for the first 15 elemets only
+                artist_name = artist.get('name')
+                searchedArtists.append(artist_name)#add to searched
+
+
+                tasks.append(get_artist_top_tracks(session, access_token, artist_name))  # Append the async task to the list
+
+            results = await asyncio.gather(*tasks)#we wait for each theread to return
+
+       
     arr1=[]#this array will contain artist key that gives an array for the top tracks of each individual artist
 
     for result, artist in zip(results, x.get('artists')):
@@ -212,13 +227,18 @@ async def getArtistData(city, state, country, preffered=None):
             }
             arr1.append({"artist": song_dict})
 
-    format_dict = {'type': x.get('type'), 'artists': arr1} #{type:city, artists:[]}
+    if(not cached):
+        for artists in searchedArtists:
+            (x.get('artists')).remove({'name':artists}) #remove the artist from the array
+
+
+    format_dict = {'type': x.get('type'), 'artists': arr1, 'cacheOfArtistNames': x.get('artists')} #{type:city, artists:[], cache:}
     return format_dict
 
 
 #function to make the async call for the get artist data function
-def run_get_artist_data(city, state, country, preffered=None):
-    return asyncio.run(getArtistData(city, state, country, preffered))
+def run_get_artist_data(city, state, country, preffered=None, cached=None):
+    return asyncio.run(getArtistData(city, state, country, preffered, cached))
 
 
 
@@ -226,18 +246,29 @@ def run_get_artist_data(city, state, country, preffered=None):
 @app.route('/city_post', methods=['POST']) #only will accept POST
 @cross_origin()#make this specific route CORS capable
 def city_post():
-    city = (request.json).get('city')
+    city = (request.json).get('city')#parse data for function call
     state = (request.json).get('state')#parse data for function call
     country = (request.json).get('country')
     preffered = (request.json).get('preffered')
 
     artistsData = run_get_artist_data(city, state, country, preffered)
     returnData = {"city": city, "state": state, "country": country, "data": artistsData}
-
     return jsonify(returnData)
 
 #format of return: {city:xx, state:xx country:xx, data:{type:xx, artists:[{xx}] }}
 
+
+#new route for cached artists from the front-end, this is when the user wants to load more
+@app.route('/cached_post', methods=['POST'])
+@cross_origin()
+def cached_post():
+    artists = (request.json).get('artists')
+    formatted = {'artists': artists}
+
+    artistData = run_get_artist_data(city=None, state=None, country=None, cached=formatted)
+    returnData = artistData.get('artists')#will be an array of artist objects
+    return jsonify(returnData)
+    
 
 #when the file is ran directly it will run the app server.
 if __name__ == "__main__":
