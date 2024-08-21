@@ -1,0 +1,454 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(180deg, #1E1E1E, #0a354f);
+
+}
+.loading--container{
+    margin: 0;
+    margin-top: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.circle {
+    position: relative;
+    aspect-ratio: 1;
+    margin-top: 40vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+  
+.letter {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    font-family: "Inter", sans-serif;
+    color: #f5f5f5;
+  }
+  
+.green{
+    color: #1DB954;
+    padding-left: 0.1em;
+    font-size: 1.2em;
+    line-height: 0.5em;
+}
+
+.header{
+    color: #F5F5F5;
+    display: flex;
+    height: 120px;
+    align-items: center;
+    justify-content: left;
+    font-size: 12.5px;
+    letter-spacing: -1.01px;
+    gap: 0px;
+    
+}
+
+.header--img{
+    width: 98px;
+}
+
+.header--h1{
+    margin-left: -14px;
+    font-weight: 600;
+}
+
+.body--container{
+    margin: 0 38px 0 38px;
+}
+
+.body--h1{
+    color: #F5F5F5;
+    font-size: 2.9375em;
+    font-weight: 400;
+}
+
+.body--button{
+    margin-top: 40px;
+    width: 180px;
+    height: 70px;
+    font-family: "Inter", sans-serif;
+    background-color: #3C3C3C;
+    color: #F5F5F5;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 17px;
+    cursor: pointer;
+
+}
+
+.body--p{
+    margin-top: 2.5em;
+    color: #8A8A8A;
+    
+}
+
+.footer--container{
+    margin: 2em 2.375em 0 2.375em;
+    
+
+}
+
+.footer--img{
+    flex-basis: 100%;
+    width: 268px;
+    height: 270px;
+    border-radius: 20px;
+}
+
+.results--header{
+    margin: 4.15em 2.375em 0 2.375em;
+}
+
+.results--h1{
+    font-size: 48px;
+    font-weight: 400;
+    color: #F5F5F5;
+    margin: 0;
+}
+
+.results--p{
+    color: #8A8A8A;
+}
+
+
+
+.artist--tile{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #0a353ce0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
+    width: 62vw;
+    height: 31vh;
+    border-radius: 30px;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-top: 6vh;
+    margin-bottom: 1vh;
+    position: relative;
+}
+
+.artist--tile-expanded{
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    flex-direction: column;
+    background-color: #0a353ce0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
+    width: 92vw;
+    height: 70vh;
+    border-radius: 30px;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-top: 6vh;
+    margin-bottom: 3vh;
+    z-index: 10;
+
+
+}
+
+.artist--tile--img{
+    width: 90%;
+    height: 73%;
+    border-radius: 15px;
+    margin-top: 1.6vh;
+    margin-bottom: 0;
+    object-fit: cover;
+    object-position: 100% 0%;
+    transition: all 0.2s ease;
+
+}
+
+.artist--tile--expanded--img{
+    width: 95%;
+    height: 37%;
+    border-radius: 15px;
+    margin-top: 1.6vh;
+    object-fit: cover;
+    object-position: 100% 0%;
+    transition: all 0.4s ease;
+
+    
+
+}
+.artist--tile--expanded--album--container{
+    margin: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    margin-left: 2.9%;
+
+}
+
+.artist--tile--expanded--album{
+    max-width: 3.8em;
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+    border-radius: 4px;
+    margin-right: 0;
+}
+
+.artist--tile--expanded--album--container h4{
+    color: #F5F5F5;
+    font-weight: 600;
+    line-height: 0.8em;
+    margin-left: -1.1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.artist--tile--expanded--album--container p{
+    color: #F5F5F5;
+    font-weight: 300;
+    font-size: 0.7em;
+    line-height: 7.2em;
+    margin-left: -9.4em;
+}
+
+.artist--tile--expanded--album--container button{
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    height: 3.4em;
+    width: 8em;
+    margin-left: -3.5em;
+    margin-top: 0.8em;
+    background-color: #0a1a1f;
+    border-radius: 10px;
+    color: #F5F5F5;
+    font-weight: 500;
+    font-size: 0.96em;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    line-height: 1.5em;
+}
+
+.artist--tile--h3{
+    margin-top: 0.99vh;
+    color: #F5F5F5;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+
+.artist--tile--badge{
+    color: #F5F5F5;
+    position: absolute;
+    left: 5%;
+    bottom: 58%;
+    font-size: 2.2em;
+    text-shadow: 0.1em 0.1em 0.2em rgba(0, 0, 0, 0.856); /* Dark shadow to create contrast */
+    background-color: rgba(0, 0, 0, 0.104); /* Dark overlay */
+    border-radius: 10px;
+
+
+}
+
+.artist--tile--genreBadge{
+    color: #37393b;
+    position: absolute;
+    left: 7%;
+    bottom: 70%;
+    font-size: 0.96em;
+    background-color: #ebeff3; /* Semi-transparent background */
+    border-radius: 5px;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+    border: 1px solid #949697;
+}
+
+.artist--tile-expanded--popular--container{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    margin-left: 0.38em;
+    align-items: center;
+    justify-content: center;
+}
+
+.artist--tile-expanded--h4{
+    color: #dcdcdc;
+    margin-right: auto;
+    margin-left: 3.2%;
+    margin-top: 1em;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+}
+
+.artists--container{
+    display:flex;
+    gap: 1vh;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    
+}
+
+.artists--container--loadMore{
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+    width: 9.25em;
+    height: 2.375em;
+    font-family: "Inter", sans-serif;
+    background-color: #00CFFF;
+    color: #002B36;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 17px;
+    cursor: pointer; 
+    text-shadow: 0.1em 0.1em 0.2em rgba(0, 0, 0, 0.551); /* Dark shadow to create contrast */
+    Border: 1.5px solid #0088A3
+
+}
+
+.artists--container--genre--container{
+    display: flex;
+    width: 90%;
+    height: auto;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    margin-bottom: 0.8vh;
+    margin-top: 5vh;
+    margin-right: 0;
+    position: relative;
+
+}
+
+.genreButton{
+    font-family: "Inter", sans-serif;
+    background-color: #003d00; /* Forest Green */
+    color: #002B36;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 17px;
+    cursor: pointer; 
+    background-color: #00CFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft Shadow */
+}
+
+.resultsFooter--container{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 100%;
+    margin-top: 4em;
+}
+
+.resultsFooter--container h3{
+    font-size: 1.9em;
+    margin-left: 0.8em;
+    font-weight: 400;
+    color: #F5F5F5;
+    margin-bottom: 0;
+
+}
+
+.resultsFooter--container h4{
+    font-size: 1.3em;
+    margin-left: 1.2em;
+    font-weight: 300;
+    color: #F5F5F5;
+    margin-top: 0.2em;
+
+}
+
+.resultsFooter--container button{
+    font-family: "Inter", sans-serif;
+    background-color: #003d00; /* Forest Green */
+    color: #002B36;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 17px;
+    cursor: pointer; 
+    background-color: #00CFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft Shadow */
+    width: 25vw;
+    align-self: center;
+    margin-bottom: 7vh;
+    height: 4.5vh;
+    margin-top: 1vh;
+}
+
+.errorPage--container{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    color: #F5F5F5;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    margin-left: 1em;
+}
+
+.errorPage--container h1{
+    color: #F5F5F5;
+    font-size: 2.9375em;
+    font-weight: 400;
+    margin-top: 2em;
+}
+
+.errorPage--container h4{
+    font-size: 1.5em;
+    color: #8A8A8A;
+    font-weight: 300;
+}
+
+.errorPage--container i{
+    font-size: 6.5em;
+    color: #ffffff;
+    margin-left: -0.2em;
+}
+
+.errorPage--container--API{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    color: #F5F5F5;
+    align-items: center;
+    height: 100vh;
+    width: 90vw;
+    margin-left: 1em;
+    flex-wrap: wrap;
+}
+
+.errorPage--container--API h1{
+    color: #F5F5F5;
+    font-size: 2.9375em;
+    font-weight: 400;
+    margin-top: 2em;
+}
+
+.errorPage--container--API h4{
+    font-size: 1.5em;
+    color: #8A8A8A;
+    font-weight: 300;
+}
+
+.errorPage--container--API i{
+    font-size: 6.5em;
+    color: #ffffff;
+    margin-left: 0em;
+}
+
