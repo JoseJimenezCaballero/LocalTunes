@@ -1,11 +1,33 @@
 import React, { useState } from "react"
 import {motion} from 'framer-motion'
 import ArtistTrack from "./ArtistTrack"
+import { useMediaQuery } from 'react-responsive';
+
 
 //this component handles artist tiles
 
 export default function Artist({artistName, artistImg, topSongs, genre}){
     const [isExpanded, setIsExpanded] = useState(false); //bool to check if tile is expanded
+
+    const isDesktop = useMediaQuery({ query: '(min-width: 769px)' }); //THE FOLLOWING ANIMATIONS ALSO CONTROL WIDTH AND HEIGHT OF THE TILES, NOT THE CSS
+    let animateDesktop = { width: isExpanded ? '42vw' : '24vw', height: isExpanded ? '98vh' : '31vh'} //will use this animation if on desktop
+
+    const isSmallScreen = useMediaQuery({ query: '(max-height: 650px)' });
+    let animateSmall = { width: isExpanded ? '92vw' : '62vw', height: isExpanded ? '95vh' : '31vh'} //will use this animation if on smaller screen
+
+    let animateDefault = {width: isExpanded ? '92vw' : '62vw', height: isExpanded ? '77.5vh' : '31vh'}
+
+    let animation
+
+    if(isDesktop){
+        animation = animateDesktop
+    }
+    else if(isSmallScreen){
+        animation = animateSmall
+    }
+    else{
+        animation = animateDefault
+    }
 
     //click handles function to set if the tile is expanded or not
     function clickHandler(){
@@ -34,7 +56,7 @@ export default function Artist({artistName, artistImg, topSongs, genre}){
             className={`artist--tile${isExpanded ? '-expanded' : ''}`} 
             onClick={clickHandler} 
             initial={{ width: '90%', height: '24vh'}} 
-            animate={{ width: isExpanded ? '92vw' : '62vw', height: isExpanded ? '75vh' : '31vh'}}
+            animate={animation}
             transition={{ duration: 0.2}}
         >   
             <img className={`artist--tile${isExpanded ? '--expanded--img' : '--img'}`} src={artistImg}/>
@@ -46,7 +68,6 @@ export default function Artist({artistName, artistImg, topSongs, genre}){
             <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
                 {isExpanded && tracks}
             </div>
-
             {!isExpanded && <motion.h3 initial={{ opacity:0, y: -34.5}} animate={{ opacity:1, y: 0 }} transition={{ delay: 0.10 }} className="artist--tile--h3">{artistName}</motion.h3>}
             {!isExpanded && genre && <motion.h4 initial={{ opacity:0, y: -34.5}} animate={{ opacity:1, y: 0 }} transition={{ delay: 0.10 }} className="artist--tile--genreBadge">{genre}</motion.h4>}
 

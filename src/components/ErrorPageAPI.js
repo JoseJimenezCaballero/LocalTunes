@@ -1,5 +1,6 @@
 import React from "react"
 
+
 //error page specifically for network issues
 export default function ErrorPageAPI(){
     return(
